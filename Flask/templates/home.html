@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>HDI Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            background-image: url('https://eoimages.gsfc.nasa.gov/images/imagerecords/79000/79765/dnb_land_ocean_ice.2012.3600x1800.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom,
+                rgba(0,0,0,0.5) 0%,
+                rgba(0,5,20,0.4) 50%,
+                rgba(0,5,20,0.85) 100%);
+        }
+
+        nav {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 3px;
+        }
+
+        .logo span { color: #4fc3f7; }
+
+        nav a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.88rem;
+            transition: color 0.3s;
+            letter-spacing: 1px;
+        }
+
+        nav a:hover { color: #4fc3f7; }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 140px 20px 100px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 20px;
+            border: 1px solid rgba(79,195,247,0.5);
+            border-radius: 20px;
+            font-size: 0.72rem;
+            color: #4fc3f7;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            background: rgba(79,195,247,0.1);
+        }
+
+        .hero-content h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-shadow: 0 0 40px rgba(79,195,247,0.5);
+        }
+
+        .hero-content h1 span { color: #4fc3f7; }
+
+        .hero-content p {
+            font-size: 1rem;
+            color: #ccc;
+            max-width: 540px;
+            margin: 0 auto 44px;
+            line-height: 1.8;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 42px;
+            background: rgba(79,195,247,0.2);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            border: 1px solid rgba(79,195,247,0.6);
+            box-shadow: 0 0 30px rgba(79,195,247,0.25);
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: rgba(79,195,247,0.35);
+            box-shadow: 0 0 50px rgba(79,195,247,0.5);
+            transform: translateY(-3px);
+        }
+
+        /* Cards section */
+        .cards-section {
+            background: #020b18;
+            padding: 70px 20px;
+        }
+
+        .cards-section h2 {
+            font-family: 'Orbitron', monospace;
+            text-align: center;
+            font-size: 1rem;
+            color: #4fc3f7;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(79,195,247,0.15);
+            border-radius: 16px;
+            padding: 30px 22px;
+            width: 210px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(79,195,247,0.4);
+            box-shadow: 0 0 30px rgba(79,195,247,0.1);
+            transform: translateY(-6px);
+        }
+
+        .card .icon { font-size: 2.2rem; margin-bottom: 12px; }
+        .card h3 { font-size: 0.9rem; font-weight: 700; color: #4fc3f7; margin-bottom: 8px; }
+        .card p { font-size: 0.78rem; color: #555; line-height: 1.6; }
+
+        /* Tiers section */
+        .tiers-section {
+            background: #020b18;
+            padding: 20px 20px 70px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .tiers-section h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            color: #333;
+            letter-spacing: 3px;
+            margin-bottom: 28px;
+        }
+
+        .tier-grid { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+        .tier {
+            padding: 18px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            min-width: 165px;
+            transition: transform 0.3s;
+        }
+
+        .tier:hover { transform: translateY(-4px); }
+        .tier h4 { font-size: 0.95rem; margin-bottom: 4px; }
+        .tier p { font-size: 0.75rem; opacity: 0.7; font-weight: 400; }
+
+        .tier.low    { background: rgba(255,80,80,0.07);  border: 1px solid rgba(255,80,80,0.25);  color: #ff6b6b; }
+        .tier.medium { background: rgba(255,180,0,0.07);  border: 1px solid rgba(255,180,0,0.25);  color: #ffb300; }
+        .tier.high   { background: rgba(79,195,247,0.07); border: 1px solid rgba(79,195,247,0.25); color: #4fc3f7; }
+        .tier.vhigh  { background: rgba(0,230,118,0.07);  border: 1px solid rgba(0,230,118,0.25);  color: #00e676; }
+
+        footer {
+            background: #010810;
+            text-align: center;
+            padding: 20px;
+            color: #222;
+            font-size: 0.78rem;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero-section">
+    <nav>
+        <div class="logo">HDI <span>PREDICTOR</span></div>
+        <div>
+            <a href="/">Home</a>
+            <a href="/Prediction">Predict</a>
+        </div>
+    </nav>
+
+    <div class="hero-content">
+        <div class="hero-badge">🛰️ ML Powered Prediction</div>
+        <h1>Human Development<br/><span>Index</span> Predictor</h1>
+        <p>Predict any country's HDI score using Life Expectancy, Education, and Income — powered by a trained Linear Regression model on real UNDP data.</p>
+        <a href="/Prediction" class="btn">Start Predicting →</a>
+    </div>
+</div>
+
+<div class="cards-section">
+    <h2>KEY INDICATORS</h2>
+    <div class="cards">
+        <div class="card"><div class="icon">❤️</div><h3>Life Expectancy</h3><p>Average lifespan — a key health development indicator.</p></div>
+        <div class="card"><div class="icon">🎓</div><h3>Education</h3><p>Mean years of schooling reflecting educational attainment.</p></div>
+        <div class="card"><div class="icon">💰</div><h3>Income (GNI)</h3><p>Gross National Income per capita measuring economic output.</p></div>
+        <div class="card"><div class="icon">🤖</div><h3>ML Powered</h3><p>Linear Regression trained on real UNDP HDI dataset.</p></div>
+    </div>
+</div>
+
+<div class="tiers-section">
+    <h2>HDI CLASSIFICATION TIERS</h2>
+    <div class="tier-grid">
+        <div class="tier low"><h4>🔴 Low HDI</h4><p>Score: 0.30 – 0.54</p></div>
+        <div class="tier medium"><h4>🟠 Medium HDI</h4><p>Score: 0.55 – 0.69</p></div>
+        <div class="tier high"><h4>🔵 High HDI</h4><p>Score: 0.70 – 0.79</p></div>
+        <div class="tier vhigh"><h4>🟢 Very High HDI</h4><p>Score: 0.80 – 0.94</p></div>
+    </div>
+</div>
+
+<footer>© 2025 HDI Predictor — Machine Learning Project</footer>
+
+</body>
+</html>

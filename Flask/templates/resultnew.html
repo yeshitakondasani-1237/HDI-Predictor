@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>HDI Predictor — Result</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #020b18;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 3px;
+        }
+        .logo span { color: #4fc3f7; }
+
+        nav a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.88rem;
+            transition: color 0.3s;
+            letter-spacing: 1px;
+        }
+        nav a:hover { color: #4fc3f7; }
+
+        .container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(79,195,247,0.15);
+            border-radius: 24px;
+            padding: 56px 48px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 60px rgba(79,195,247,0.06);
+        }
+
+        .result-icon { font-size: 4rem; margin-bottom: 16px; }
+
+        .result-label {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 14px;
+        }
+
+        .result-text {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            text-shadow: 0 0 25px currentColor;
+        }
+
+        .tier-badge {
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 28px;
+        }
+
+        .low    { background: rgba(255,80,80,0.08);  color: #ff6b6b; border: 1px solid rgba(255,80,80,0.35);  }
+        .medium { background: rgba(255,180,0,0.08);  color: #ffb300; border: 1px solid rgba(255,180,0,0.35);  }
+        .high   { background: rgba(79,195,247,0.08); color: #4fc3f7; border: 1px solid rgba(79,195,247,0.35); }
+        .vhigh  { background: rgba(0,230,118,0.08);  color: #00e676; border: 1px solid rgba(0,230,118,0.35);  }
+        .unknown{ background: rgba(255,255,255,0.04); color: #888; border: 1px solid rgba(255,255,255,0.15); }
+
+        .divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 24px 0; }
+        .description { font-size: 0.88rem; color: #777; line-height: 1.8; margin-bottom: 32px; }
+
+        .btn-group { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: rgba(79,195,247,0.18);
+            color: #fff;
+            border: 1px solid rgba(79,195,247,0.5);
+            box-shadow: 0 0 25px rgba(79,195,247,0.15);
+        }
+        .btn-primary:hover { background: rgba(79,195,247,0.3); transform: translateY(-2px); box-shadow: 0 0 40px rgba(79,195,247,0.35); }
+
+        .btn-outline { background: transparent; color: #888; border: 1px solid rgba(255,255,255,0.15); }
+        .btn-outline:hover { border-color: #4fc3f7; color: #4fc3f7; }
+    </style>
+
+    <script>
+        window.onload = function () {
+            const text = document.getElementById('predText').innerText.toLowerCase();
+            const icon = document.getElementById('resultIcon');
+            const badge = document.getElementById('tierBadge');
+            const rt = document.getElementById('resultText');
+            const desc = document.getElementById('desc');
+
+            if (text.includes('very high')) {
+                icon.innerText = '🌟';
+                badge.className = 'tier-badge vhigh';
+                badge.innerText = '✅ Very High Human Development';
+                rt.style.color = '#00e676';
+                desc.innerText = 'This country ranks among the most developed in the world with excellent healthcare, education, and high income standards.';
+            } else if (text.includes('high')) {
+                icon.innerText = '✅';
+                badge.className = 'tier-badge high';
+                badge.innerText = '🔵 High Human Development';
+                rt.style.color = '#4fc3f7';
+                desc.innerText = 'This country shows strong human development with good life expectancy, solid education, and above-average income.';
+            } else if (text.includes('medium')) {
+                icon.innerText = '📈';
+                badge.className = 'tier-badge medium';
+                badge.innerText = '🟠 Medium Human Development';
+                rt.style.color = '#ffb300';
+                desc.innerText = 'This country is developing steadily. Improvements in healthcare, education, or income could significantly boost its HDI.';
+            } else if (text.includes('low')) {
+                icon.innerText = '⚠️';
+                badge.className = 'tier-badge low';
+                badge.innerText = '🔴 Low Human Development';
+                rt.style.color = '#ff6b6b';
+                desc.innerText = 'This country faces significant challenges. Policy interventions in health, education, and economic opportunity are recommended.';
+            } else {
+                icon.innerText = '❓';
+                badge.className = 'tier-badge unknown';
+                badge.innerText = 'Out of Range';
+                rt.style.color = '#888';
+                desc.innerText = 'The prediction is outside the expected range. Please verify the input values and try again.';
+            }
+        };
+    </script>
+</head>
+<body>
+
+<nav>
+    <div class="logo">HDI <span>PREDICTOR</span></div>
+    <div>
+        <a href="/">Home</a>
+        <a href="/Prediction">Predict</a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="result-card">
+        <div class="result-icon" id="resultIcon">🔮</div>
+        <div class="result-label">Prediction Result</div>
+        <div class="result-text" id="resultText"><span id="predText">{{ prediction_text }}</span></div>
+        <div class="tier-badge" id="tierBadge">Calculating...</div>
+        <hr class="divider"/>
+        <p class="description" id="desc">Analyzing result...</p>
+        <div class="btn-group">
+            <a href="/Prediction" class="btn btn-primary">Predict Again</a>
+            <a href="/" class="btn btn-outline">Back to Home</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
