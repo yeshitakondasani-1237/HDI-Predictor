@@ -143,3 +143,5 @@ This project is open-source and available for educational purposes.
 [Github Profile]https://github.com/himeshsaiharinaghpolisetti-lab
 **Mohammadkaif Shaik**
 [Github Profile]https://github.com/mohammadkaif-shaik007
+**Venkata Rishik Rapuru**
+[Github Profile]https://github.com/rapururishik9-dev
